@@ -24,24 +24,30 @@ useEffect(() => {
   }, []);
 
   return (
-    // Display the list of products
-      <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-        <h2>Daftar Produk Toko</h2>
-        {loading ? (
-          <p>Memuat data...</p>
-        ) : (
-          <ul>
-            {products.length === 0 ? (
-              <p>Belum ada produk di database.</p>
-            ) : (
-              products.map((item) => (
-                <li key={item.id}>
-                  <strong>{item.nama}</strong> - Rp {item.harga} (Stok: {item.stok})
-                </li>
-              ))
-            )}
-          </ul>
-        )}
+      <div className="app-wrapper">
+        <div className="app-container">
+          <h1 className="page-title">Daftar Produk Toko</h1>
+          
+          {loading ? (
+            <p className="loading-text">Memuat data dari database...</p>
+          ) : (
+            <div className="product-grid">
+              {products.length === 0 ? (
+                <p className="empty-text">Belum ada produk di database.</p>
+              ) : (
+                products.map((item) => (
+                  <div key={item.id} className="product-card">
+                    <h2 className="product-title">{item.nama}</h2>
+                    <p className="product-price">
+                      Rp {item.harga.toLocaleString('id-ID')}
+                    </p>
+                    <p className="product-stock">Stok: {item.stok}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
