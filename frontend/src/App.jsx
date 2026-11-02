@@ -24,10 +24,9 @@ useEffect(() => {
   }, []);
 
   return (
+    // Display the list of products
       <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
         <h2>Daftar Produk Toko</h2>
-
-        {/* 3. Tampilkan ke layar */}
         {loading ? (
           <p>Memuat data...</p>
         ) : (
