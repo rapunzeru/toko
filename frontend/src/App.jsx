@@ -6,6 +6,9 @@ import './App.css';
 import AddProduct from './components/AddProduct';
 import AddSoldItem from './components/AddSoldItem';
 import PrintPage from './components/PrintPage';
+import UserProfileModal from './components/UserProfileModal';
+import { productDao } from './dao/productDao';
+import { soldItemDao } from './dao/soldItemDao';
 
 // ProductList Component
 // Displays the product inventory table, sold items tracker, and triggers modals
@@ -20,21 +23,9 @@ function ProductList() {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch initial product list from backend and sync saved sold items count
+  // Fetch initial product list from backend and sync saved sold items count via DAOs
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
-      .then(async (res) => {
-        const contentType = res.headers.get('content-type') || '';
-        if (!contentType.includes('application/json')) {
-          const text = await res.text();
-          throw new Error(`Server mengembalikan HTML/non-JSON (${res.status}). Pastikan backend berjalan.`);
-        }
-        if (!res.ok) {
-          const errData = await res.json();
-          throw new Error(errData.error || 'Gagal mengambil data produk dari server');
-        }
-        return res.json();
-      })
+    productDao.getAll()
       .then((data) => {
         setProducts(data);
         setLoading(false);
@@ -45,12 +36,8 @@ function ProductList() {
       });
 
     // Check count of stored sold item records
-    try {
-      const saved = JSON.parse(localStorage.getItem('toko_sold_items') || '[]');
-      setSoldCount(saved.length);
-    } catch (e) {
-      console.error('Failed to parse sold items from localStorage:', e);
-    }
+    const saved = soldItemDao.getAll();
+    setSoldCount(saved.length);
   }, []);
 
   // Open the sale modal for a specific row/product
@@ -65,15 +52,13 @@ function ProductList() {
     setShowAddSold(true);
   };
 
-  // Save a newly recorded sold item to localStorage and update badge count
+  // Save a newly recorded sold item via SoldItem DAO and update badge count
   const handleSaveSold = (soldData) => {
     try {
-      const stored = JSON.parse(localStorage.getItem('toko_sold_items') || '[]');
-      const updated = [...stored, soldData];
-      localStorage.setItem('toko_sold_items', JSON.stringify(updated));
+      const updated = soldItemDao.save(soldData);
       setSoldCount(updated.length);
     } catch (err) {
-      console.error('Failed to save sold item to localStorage:', err);
+      console.error('Failed to save sold item via DAO:', err);
     }
   };
 
@@ -245,58 +230,7 @@ function ProductList() {
 
         {/* User Profile Modal */}
         {showProfileModal && (
-          <div className="modal-overlay" onClick={() => setShowProfileModal(false)}>
-            <div className="profile-modal-box" onClick={(e) => e.stopPropagation()}>
-              <div className="modal-header">
-                <h2 className="modal-title">Profil Pengguna</h2>
-                <button
-                  type="button"
-                  className="modal-close"
-                  onClick={() => setShowProfileModal(false)}
-                >
-                  &times;
-                </button>
-              </div>
-
-              <div className="profile-card-header">
-                <div className="profile-avatar-large">AD</div>
-                <div>
-                  <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#1a1a1a' }}>Admin Toko</h3>
-                  <p style={{ margin: '2px 0 0 0', fontSize: '0.8rem', color: '#777' }}>Administrator Sistem</p>
-                </div>
-              </div>
-
-              <div className="profile-details-list">
-                <div className="profile-detail-row">
-                  <span className="profile-detail-label">Email:</span>
-                  <span className="profile-detail-value">admin@tokokita.com</span>
-                </div>
-                <div className="profile-detail-row">
-                  <span className="profile-detail-label">Nama Toko:</span>
-                  <span className="profile-detail-value">Toko Kita</span>
-                </div>
-                <div className="profile-detail-row">
-                  <span className="profile-detail-label">Status Akun:</span>
-                  <span className="profile-detail-value" style={{ color: '#2d7d46' }}>Aktif (Online)</span>
-                </div>
-                <div className="profile-detail-row">
-                  <span className="profile-detail-label">Terdaftar Sejak:</span>
-                  <span className="profile-detail-value">1 Januari 2026</span>
-                </div>
-              </div>
-
-              <div className="form-actions">
-                <button
-                  type="button"
-                  className="btn-cancel"
-                  style={{ width: '100%', textAlign: 'center' }}
-                  onClick={() => setShowProfileModal(false)}
-                >
-                  Tutup
-                </button>
-              </div>
-            </div>
-          </div>
+          <UserProfileModal onClose={() => setShowProfileModal(false)} />
         )}
       </div>
     </div>

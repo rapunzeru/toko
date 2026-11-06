@@ -1,7 +1,8 @@
 // AddProduct Modal Component
 // Displays a modal form allowing users to register a new product
-// Submits the payload to POST /api/products and updates the parent state
+// Delegates data persistence to productDao and updates the parent state
 import { useState } from 'react';
+import { productDao } from '../dao/productDao';
 import './AddProduct.css';
 
 // Props:
@@ -34,39 +35,16 @@ function AddProduct({ onClose, onProductAdded }) {
     setSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nama: nama.trim(),
-          harga: Number(harga),
-          stok: stok !== '' ? Number(stok) : 0,
-        }),
+      // Delegate API persistence to Product DAO
+      const newProduct = await productDao.create({
+        nama: nama.trim(),
+        harga: Number(harga),
+        stok: stok !== '' ? Number(stok) : 0,
       });
-
-      const contentType = response.headers.get('content-type') || '';
-      let data = {};
-
-      if (contentType.includes('application/json')) {
-        data = await response.json();
-      } else {
-        const textError = await response.text();
-        throw new Error(
-          response.status === 404
-            ? 'Endpoint 404 Not Found. Pastikan server backend sudah direstart agar rute baru POST /api/products aktif.'
-            : `Server mengembalikan respon bukan JSON (${response.status}): ${textError.slice(0, 80)}`
-        );
-      }
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Gagal menyimpan produk ke database.');
-      }
 
       // Notify parent to append product without a full page refresh
       if (onProductAdded) {
-        onProductAdded(data);
+        onProductAdded(newProduct);
       }
 
       onClose();

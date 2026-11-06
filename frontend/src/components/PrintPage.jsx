@@ -3,39 +3,30 @@
 // Features browser window.print() integration, media-print styling, and individual item deletion
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { soldItemDao } from '../dao/soldItemDao';
 import './PrintPage.css';
 
 function PrintPage() {
   const [soldItems, setSoldItems] = useState([]);
   const navigate = useNavigate();
 
-  // Load recorded sold items from browser storage on mount
+  // Load recorded sold items using DAO on mount
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem('toko_sold_items');
-      if (stored) {
-        setSoldItems(JSON.parse(stored));
-      }
-    } catch (e) {
-      console.error('Failed to read sold items from localStorage:', e);
-    }
+    setSoldItems(soldItemDao.getAll());
   }, []);
 
-  // Reset all recorded sold item transactions
+  // Reset all recorded sold item transactions via DAO
   const handleClearSoldItems = () => {
     if (window.confirm('Are you sure you want to reset and delete all recorded sold items?')) {
-      localStorage.removeItem('toko_sold_items');
+      soldItemDao.clearAll();
       setSoldItems([]);
     }
   };
 
-  // Remove a specific sold transaction row and recalculate the report
+  // Remove a specific sold transaction row via DAO and recalculate the report
   const handleDeleteIndividual = (idToDelete, indexToDelete) => {
-    const updated = soldItems.filter((item, idx) =>
-      item.id ? item.id !== idToDelete : idx !== indexToDelete
-    );
+    const updated = soldItemDao.delete(idToDelete, indexToDelete);
     setSoldItems(updated);
-    localStorage.setItem('toko_sold_items', JSON.stringify(updated));
   };
 
   // Aggregated calculations for total sold quantity and overall revenue
