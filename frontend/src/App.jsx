@@ -25,8 +25,6 @@ function App() {
       });
   }, []);
 
-  // HAPUS bagian useNavigate dan routhChange di sini karena kita pakai state showAdd untuk modal
-
   return (
       <div className="app-wrapper">
         <div className="app-container">
@@ -35,7 +33,6 @@ function App() {
               <h1 className="page-title">Produk Toko</h1>
               <p className="page-subtitle">{products.length} produk terdaftar</p>
             </div>
-            {/* Tombol ini sudah benar untuk membuka modal */}
             <button className="btn-add" onClick={() => setShowAdd(true)}>Tambah Produk</button>
           </div>
 
@@ -44,7 +41,6 @@ function App() {
           ) : (
             <div className="table-wrapper">
               <table className="product-table">
-                {/* ... (Kode table head dan body kamu tidak ada yang salah, biarkan saja seperti aslinya) ... */}
                 <thead className="table-head">
                   <tr>
                     <th className="table-header">#</th>
