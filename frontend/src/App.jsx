@@ -16,6 +16,8 @@ function ProductList() {
   const [showAddSold, setShowAddSold] = useState(false);
   const [selectedProductForSell, setSelectedProductForSell] = useState(null);
   const [soldCount, setSoldCount] = useState(0);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const navigate = useNavigate();
 
   // Fetch initial product list from backend and sync saved sold items count
@@ -81,6 +83,14 @@ function ProductList() {
     setProducts((prev) => [...prev, newProduct]);
   };
 
+  // Handle user session logout action
+  const handleLogout = () => {
+    setShowUserDropdown(false);
+    if (window.confirm('Apakah Anda yakin ingin keluar dari sistem?')) {
+      alert('Anda telah berhasil keluar dari akun Admin.');
+    }
+  };
+
   return (
     <div className="app-wrapper">
       {/* Top Header Navbar */}
@@ -95,13 +105,54 @@ function ProductList() {
           </div>
 
           <div className="navbar-user-right">
-            <div className="user-info">
-              <span className="user-name">Admin Toko</span>
-              <span className="user-status">Online</span>
-            </div>
-            <div className="user-avatar" title="Pengguna Aktif: Admin Toko">
-              AD
-            </div>
+            <button
+              className="user-profile-btn"
+              onClick={() => setShowUserDropdown((prev) => !prev)}
+              title="Menu Pengguna"
+              type="button"
+            >
+              <div className="user-info">
+                <span className="user-name">Admin Toko</span>
+                <span className="user-status">Online</span>
+              </div>
+              <div className="user-avatar" title="Pengguna Aktif: Admin Toko">
+                AD
+              </div>
+            </button>
+
+            {/* User Dropdown Menu */}
+            {showUserDropdown && (
+              <>
+                <div
+                  className="dropdown-backdrop"
+                  onClick={() => setShowUserDropdown(false)}
+                />
+                <div className="user-dropdown-menu">
+                  <div className="dropdown-user-header">
+                    <p className="dropdown-user-name">Admin Toko</p>
+                    <p className="dropdown-user-email">admin@tokokita.com</p>
+                  </div>
+                  <div className="dropdown-divider" />
+                  <button
+                    type="button"
+                    className="dropdown-item"
+                    onClick={() => {
+                      setShowUserDropdown(false);
+                      setShowProfileModal(true);
+                    }}
+                  >
+                    Profil Saya
+                  </button>
+                  <button
+                    type="button"
+                    className="dropdown-item logout"
+                    onClick={handleLogout}
+                  >
+                    Keluar (Log out)
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -190,6 +241,62 @@ function ProductList() {
               setSelectedProductForSell(null);
             }}
           />
+        )}
+
+        {/* User Profile Modal */}
+        {showProfileModal && (
+          <div className="modal-overlay" onClick={() => setShowProfileModal(false)}>
+            <div className="profile-modal-box" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h2 className="modal-title">Profil Pengguna</h2>
+                <button
+                  type="button"
+                  className="modal-close"
+                  onClick={() => setShowProfileModal(false)}
+                >
+                  &times;
+                </button>
+              </div>
+
+              <div className="profile-card-header">
+                <div className="profile-avatar-large">AD</div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#1a1a1a' }}>Admin Toko</h3>
+                  <p style={{ margin: '2px 0 0 0', fontSize: '0.8rem', color: '#777' }}>Administrator Sistem</p>
+                </div>
+              </div>
+
+              <div className="profile-details-list">
+                <div className="profile-detail-row">
+                  <span className="profile-detail-label">Email:</span>
+                  <span className="profile-detail-value">admin@tokokita.com</span>
+                </div>
+                <div className="profile-detail-row">
+                  <span className="profile-detail-label">Nama Toko:</span>
+                  <span className="profile-detail-value">Toko Kita</span>
+                </div>
+                <div className="profile-detail-row">
+                  <span className="profile-detail-label">Status Akun:</span>
+                  <span className="profile-detail-value" style={{ color: '#2d7d46' }}>Aktif (Online)</span>
+                </div>
+                <div className="profile-detail-row">
+                  <span className="profile-detail-label">Terdaftar Sejak:</span>
+                  <span className="profile-detail-value">1 Januari 2026</span>
+                </div>
+              </div>
+
+              <div className="form-actions">
+                <button
+                  type="button"
+                  className="btn-cancel"
+                  style={{ width: '100%', textAlign: 'center' }}
+                  onClick={() => setShowProfileModal(false)}
+                >
+                  Tutup
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
