@@ -1,0 +1,197 @@
+/* frontend/src/components/PrintPage.css */
+
+.print-page-wrapper {
+  min-height: 100vh;
+  background-color: #f3f0ea;
+  padding: 32px 16px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.print-action-bar {
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-secondary {
+  background-color: #fff;
+  color: #444;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-secondary:hover {
+  background-color: #f7f7f7;
+  border-color: #ccc;
+}
+
+.btn-primary-print {
+  background-color: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn-primary-print:hover {
+  background-color: #333;
+}
+
+.btn-delete-sold-item {
+  background: none;
+  border: 1px solid transparent;
+  color: #c0392b;
+  font-size: 0.76rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.btn-delete-sold-item:hover {
+  background-color: #fdf0ef;
+  border-color: #f3cbc7;
+}
+
+/* Kertas cetak / Document sheet */
+.print-sheet {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  border: 1px solid #e2ded7;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  color: #222;
+}
+
+.print-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #222;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.print-doc-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+}
+
+.print-doc-store {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+.print-meta {
+  text-align: right;
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.print-meta p {
+  margin: 0;
+}
+
+.print-loading {
+  text-align: center;
+  color: #777;
+  padding: 40px 0;
+}
+
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-bottom: 30px;
+}
+
+.print-table th,
+.print-table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+}
+
+.print-table thead th {
+  background-color: #f7f7f7;
+  font-weight: 600;
+  color: #333;
+}
+
+.print-table tfoot th {
+  background-color: #fafafa;
+  font-weight: 700;
+}
+
+.print-product-name {
+  font-weight: 500;
+}
+
+.empty-print-cell {
+  text-align: center;
+  color: #888;
+  padding: 24px;
+}
+
+.print-signature-area {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 48px;
+}
+
+.signature-box {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #333;
+  width: 220px;
+}
+
+.signature-space {
+  height: 60px;
+}
+
+/* Pengaturan khusus saat dicetak ke printer / PDF */
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  .print-page-wrapper {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .print-table th,
+  .print-table td {
+    border: 1px solid #666 !important;
+  }
+}

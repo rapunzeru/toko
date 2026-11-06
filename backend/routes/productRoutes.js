@@ -1,9 +1,15 @@
+// Product Routes
+// Defines API endpoints for product resources and maps them to controller handlers
+// Base Path: /api/products
 const express = require('express');
-const { getProducts } = require('../controllers/productController');
+const { getProducts, addProduct } = require('../controllers/productController');
 
 const router = express.Router();
 
+// GET /api/products - Retrieve product list
 router.get('/', getProducts);
 
-module.exports = router;
+// POST /api/products - Add a new product
+router.post('/', addProduct);
 
+module.exports = router;

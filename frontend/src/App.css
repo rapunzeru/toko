@@ -3,13 +3,111 @@
 .app-wrapper {
   min-height: 100vh;
   background-color: #f8f6f2;
-  padding: 40px 24px;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  padding-bottom: 40px;
+}
+
+/* Top Navbar Header */
+.top-navbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e8e5e0;
+  padding: 12px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.top-navbar-inner {
+  max-width: 840px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand-left {
+  display: flex;
+  align-items: center;
+  min-width: 140px;
+}
+
+.brand-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background-color: #f0eeea;
+  color: #666;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.navbar-shop-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.navbar-user-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 140px;
+  justify-content: flex-end;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  text-align: right;
+}
+
+.user-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.user-status {
+  font-size: 0.7rem;
+  color: #2d7d46;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.user-status::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: #2d7d46;
+  border-radius: 50%;
+}
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .app-container {
-  max-width: 800px;
+  max-width: 840px;
   margin: 0 auto;
+  padding: 32px 24px 0 24px;
 }
 
 .page-header {
@@ -30,6 +128,45 @@
   font-size: 0.85rem;
   color: #888;
   margin-top: 2px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-print {
+  background-color: #ffffff;
+  color: #333333;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 1px solid #dcd8d1;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-print:hover {
+  background-color: #f1ede7;
+  border-color: #c2bdb4;
+}
+
+.btn-sold {
+  background-color: #2d7d46;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn-sold:hover {
+  background-color: #236337;
 }
 
 .btn-add {
@@ -123,6 +260,24 @@
 .cell-action {
   text-align: right;
   white-space: nowrap;
+}
+
+.btn-sold-row {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #cce2d2;
+  background-color: #eaf5ec;
+  color: #246638;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-left: 6px;
+}
+
+.btn-sold-row:hover {
+  background-color: #d7ecdc;
+  border-color: #aed5b7;
 }
 
 .btn-edit,
